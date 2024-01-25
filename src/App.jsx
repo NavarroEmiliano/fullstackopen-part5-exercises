@@ -4,6 +4,7 @@ import loginService from './services/login'
 import Login from './components/Login'
 import AllBlogs from './components/AllBlogs'
 import Button from './components/Button'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -31,6 +32,7 @@ const App = () => {
     event.preventDefault()
     const user = await loginService.login({ username, password })
     window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    blogService.setToken(user.token)
     setUsername('')
     setPassword('')
     setUser(user)
@@ -54,6 +56,7 @@ const App = () => {
         <div>
           <p>{`${user.name} logged in`}</p>
           <Button type='button' text='Logout' handle={handleLogout} />
+          <BlogForm blogs={blogs} setBlogs={setBlogs}/>
           <AllBlogs blogs={blogs} />
         </div>
       )}
