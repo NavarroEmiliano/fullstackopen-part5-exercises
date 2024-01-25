@@ -5,12 +5,14 @@ import Login from './components/Login'
 import AllBlogs from './components/AllBlogs'
 import Button from './components/Button'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     const getAllBlogs = async () => {
@@ -28,15 +30,6 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async event => {
-    event.preventDefault()
-    const user = await loginService.login({ username, password })
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-    blogService.setToken(user.token)
-    setUsername('')
-    setPassword('')
-    setUser(user)
-  }
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -44,19 +37,16 @@ const App = () => {
 
   return (
     <div>
+      <div>
+        <Notification notification={notification} />
+      </div>
       {user === null ? (
-        <Login
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+        <Login setNotification={setNotification} setUser={setUser} />
       ) : (
         <div>
           <p>{`${user.name} logged in`}</p>
           <Button type='button' text='Logout' handle={handleLogout} />
-          <BlogForm blogs={blogs} setBlogs={setBlogs}/>
+          <BlogForm setBlogs={setBlogs} setNotification={setNotification} />
           <AllBlogs blogs={blogs} />
         </div>
       )}
