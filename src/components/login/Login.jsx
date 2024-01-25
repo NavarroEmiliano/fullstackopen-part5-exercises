@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Button from './Button'
-import InputLabel from './InputLabel'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
+import Button from '../button/Button'
+import InputLabel from '../inputLabel/InputLabel'
+import loginService from '../../services/login'
+import blogService from '../../services/blogs'
 
 const Login = ({setNotification,setUser}) => {
   const [username, setUsername] = useState('')

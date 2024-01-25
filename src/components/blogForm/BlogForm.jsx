@@ -1,32 +1,15 @@
 import { useState } from 'react'
-import InputLabel from './InputLabel'
-import blogService from '../services/blogs'
-import Button from './Button'
+import InputLabel from '../inputLabel/InputLabel'
+import blogService from '../../services/blogs'
+import Button from '../button/Button'
 
-const BlogForm = ({ setBlogs, setNotification }) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const createBlogHandle = async () => {
-    try {
-      const response = await blogService.createBlog({
-        title,
-        author,
-        url
-      })
-      const allBlogs = await blogService.getAll()
-      setBlogs(allBlogs)
-      setNotification(`A new blog ${response.title} by ${response.author} added`)
-      setTimeout(()=>{
-        setNotification(null)
-      },5000)
-    } catch (error) {
-      setNotification(error.response.data.error)
-      setTimeout(()=>{
-        setNotification(null)
-      },5000)
-    }
+  const createBlogHandle = () => {
+    createBlog({ title, author, url })
   }
 
   return (
