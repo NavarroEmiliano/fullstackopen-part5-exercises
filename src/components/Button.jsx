@@ -1,6 +1,6 @@
 const Button = props => {
-  const { type, text } = props
-  return <button type={type}>{text}</button>
+  const { type, text, handle } = props
+  return <button type={type} onClick={handle}>{text}</button>
 }
 
 export default Button
