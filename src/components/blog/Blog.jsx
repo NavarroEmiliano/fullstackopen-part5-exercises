@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../button/Button'
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
   const [visible, setVisible] = useState(false)
+  const [showRemove,setShowRemove] = useState(false)
+
   const blogStyle = {
     paddingTop: 5,
     paddingLeft: 5,
@@ -27,6 +29,19 @@ const Blog = ({ blog, updateBlog }) => {
     updateBlog(updatedBlog, blogId)
   }
 
+  const deleteBlogSubmit = () => {
+    if (window.confirm(`Remove blog ${blog.title}`)) {
+      deleteBlog(blog.id)
+    }
+  }
+
+
+  useEffect(()=>{
+    const belongsToUser = userId === blog.user.id
+    setShowRemove(belongsToUser)
+  },[])
+
+
   return (
     <div style={blogStyle}>
       {blog.title}
@@ -37,6 +52,7 @@ const Blog = ({ blog, updateBlog }) => {
           Likes: {blog.likes}
           <Button text='Like' handle={updateBlogSubmit} />
           <p>{blog.author}</p>
+          {showRemove && <Button text='Remove' handle={deleteBlogSubmit} />}
         </div>
       )}
     </div>
