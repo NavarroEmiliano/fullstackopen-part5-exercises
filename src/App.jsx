@@ -47,6 +47,7 @@ const App = () => {
     if (userLogged) {
       const user = JSON.parse(userLogged)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -70,7 +71,7 @@ const App = () => {
           <Togglable buttonLabel='New Blog' ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
-          <AllBlogs blogs={blogs} />
+          <AllBlogs blogs={blogs} setBlogs={setBlogs} />
         </div>
       )}
     </div>
