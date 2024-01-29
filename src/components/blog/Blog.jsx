@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import Button from '../button/Button'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
   const [visible, setVisible] = useState(false)
-  const [showRemove,setShowRemove] = useState(false)
+  const [showRemove, setShowRemove] = useState(false)
 
   const blogStyle = {
     paddingTop: 5,
@@ -35,12 +37,10 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
     }
   }
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const belongsToUser = userId === blog.user.id
     setShowRemove(belongsToUser)
-  },[])
-
+  }, [])
 
   return (
     <div style={blogStyle}>
@@ -50,13 +50,20 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
         <div>
           <p>{blog.url}</p>
           Likes: {blog.likes}
-          <Button text='Like' handle={updateBlogSubmit} />
+          <Button text="Like" handle={updateBlogSubmit} />
           <p>{blog.author}</p>
-          {showRemove && <Button text='Remove' handle={deleteBlogSubmit} />}
+          {showRemove && <Button text="Remove" handle={deleteBlogSubmit} />}
         </div>
       )}
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired
 }
 
 export default Blog

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const InputLabel = props => {
   const { textLabel, type, value, setValue } = props
   return (
@@ -11,6 +13,13 @@ const InputLabel = props => {
       />
     </div>
   )
+}
+
+InputLabel.propTypes = {
+  textLabel: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired
 }
 
 export default InputLabel

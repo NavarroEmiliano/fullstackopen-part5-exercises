@@ -3,8 +3,9 @@ import Button from '../button/Button'
 import InputLabel from '../inputLabel/InputLabel'
 import loginService from '../../services/login'
 import blogService from '../../services/blogs'
+import PropTypes from 'prop-types'
 
-const Login = ({setNotification,setUser}) => {
+const Login = ({ setNotification, setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -30,21 +31,26 @@ const Login = ({setNotification,setUser}) => {
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <InputLabel
-          textLabel='Username'
-          type='text'
+          textLabel="Username"
+          type="text"
           value={username}
           setValue={setUsername}
         />
         <InputLabel
-          textLabel='Password'
-          type='password'
+          textLabel="Password"
+          type="password"
           value={password}
           setValue={setPassword}
         />
-        <Button type='submit ' text='Login' />
+        <Button type="submit " text="Login" />
       </form>
     </div>
   )
+}
+
+Login.propTypes = {
+  setNotification: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired
 }
 
 export default Login

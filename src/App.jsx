@@ -67,8 +67,8 @@ const App = () => {
       ) : (
         <div>
           <p>{`${user.name} logged in`}</p>
-          <Button type='button' text='Logout' handle={handleLogout} />
-          <Togglable buttonLabel='New Blog' ref={blogFormRef}>
+          <Button type="button" text="Logout" handle={handleLogout} />
+          <Togglable buttonLabel="New Blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
           <AllBlogs blogs={blogs} setBlogs={setBlogs} user={user} />

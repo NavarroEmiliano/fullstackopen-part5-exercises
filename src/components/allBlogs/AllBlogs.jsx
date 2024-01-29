@@ -1,5 +1,6 @@
 import Blog from '../blog/Blog'
 import blogService from '../../services/blogs'
+import PropTypes from 'prop-types'
 
 const AllBlogs = ({ blogs, setBlogs, user }) => {
   const updateBlogSubmit = async (blog, blogId) => {
@@ -39,6 +40,12 @@ const AllBlogs = ({ blogs, setBlogs, user }) => {
         : ''}
     </div>
   )
+}
+
+AllBlogs.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default AllBlogs
