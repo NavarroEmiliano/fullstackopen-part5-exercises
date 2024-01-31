@@ -60,10 +60,10 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired
+  blog: PropTypes.object,
+  updateBlog: PropTypes.func,
+  deleteBlog: PropTypes.func,
+  userId: PropTypes.string
 }
 
 export default Blog
