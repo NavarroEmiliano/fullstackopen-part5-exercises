@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react'
-import { describe, expect, it, vitest } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Blog from './Blog'
 
 describe('Blog list', () => {
@@ -13,14 +13,14 @@ describe('Blog list', () => {
     }
   }
 
-  it('should show the title but not the Url and Likes', () => {
+  test('should show the title but not the Url and Likes', () => {
     const { container } = render(<Blog blog={blog} />)
     expect(container).toHaveTextContent('Title')
     expect(container).not.toHaveTextContent('Url')
     expect(container).not.toHaveTextContent('Likes')
   })
 
-  it('should show the Url and number of likes after clicking in the view button', () => {
+  test('should show the Url and number of likes after clicking in the view button', () => {
     const { container } = render(<Blog blog={blog} />)
     const viewButton = container.querySelector('.visible-btn')
     fireEvent.click(viewButton)
@@ -28,8 +28,8 @@ describe('Blog list', () => {
     expect(container).toHaveTextContent('Url')
   })
 
-  it('should call to the controller at clicking twice the like button', () => {
-    const mockHandler = vitest.fn()
+  test('should call to the controller at clicking twice the like button', () => {
+    const mockHandler = vi.fn()
     const { container } = render(<Blog blog={blog} updateBlog={mockHandler} />)
     const viewButton = container.querySelector('.visible-btn')
     fireEvent.click(viewButton)

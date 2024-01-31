@@ -1,10 +1,10 @@
-import { describe, expect, it, vitest } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import BlogForm from './BlogForm'
 import { fireEvent, render } from '@testing-library/react'
 
 describe('Blog orm test', () => {
-  it('should call to the controller with the correct details', () => {
-    const mockHandler = vitest.fn()
+  test('should call to the controller with the correct details', () => {
+    const mockHandler = vi.fn()
 
     const component = render(<BlogForm createBlog={mockHandler} />)
     const input = component.container.querySelector('#Author')
