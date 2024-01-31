@@ -27,4 +27,15 @@ describe('Blog list', () => {
     expect(container).toHaveTextContent('Likes: 5')
     expect(container).toHaveTextContent('Url')
   })
+
+  it('should call to the controller at clicking twice the like button', () => {
+    const mockHandler = vitest.fn()
+    const { container } = render(<Blog blog={blog} updateBlog={mockHandler} />)
+    const viewButton = container.querySelector('.visible-btn')
+    fireEvent.click(viewButton)
+    const likeBtn = container.querySelector('.like-btn')
+    fireEvent.click(likeBtn)
+    fireEvent.click(likeBtn)
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })
