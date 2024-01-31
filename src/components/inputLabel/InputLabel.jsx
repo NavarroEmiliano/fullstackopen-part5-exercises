@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 const InputLabel = props => {
-  const { textLabel, type, value, setValue } = props
+  const { textLabel, type, value, setValue, id } = props
   return (
     <div>
       <label htmlFor={textLabel}>{`${textLabel}: `}</label>
@@ -10,6 +10,7 @@ const InputLabel = props => {
         name={textLabel.toLowerCase()}
         value={value}
         onChange={({ target }) => setValue(target.value)}
+        id={id}
       />
     </div>
   )

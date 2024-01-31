@@ -18,18 +18,20 @@ const BlogForm = ({ createBlog }) => {
   return (
     <div>
       <h2>Create New</h2>
-      <form onSubmit={createBlogHandle}>
+      <form onSubmit={createBlogHandle} className="blog-form">
         <InputLabel
           textLabel="Title"
           type="text"
           value={title}
           setValue={setTitle}
+          id="Title"
         />
         <InputLabel
           textLabel="Author"
           type="text"
           value={author}
           setValue={setAuthor}
+          id="Author"
         />
         <InputLabel textLabel="Url" type="text" value={url} setValue={setUrl} />
         <button type="submit">Create Blog</button>
