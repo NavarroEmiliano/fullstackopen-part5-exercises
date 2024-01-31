@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { describe, expect, it, vitest } from 'vitest'
 import Blog from './Blog'
 
 describe('Blog list', () => {
@@ -14,9 +14,17 @@ describe('Blog list', () => {
   }
 
   it('should show the title but not the Url and Likes', () => {
-    const component = render(<Blog blog={blog} />)
-    expect(component.container).toHaveTextContent('Title')
-    expect(component.container).not.toHaveTextContent('Url')
-    expect(component.container).not.toHaveTextContent('Likes')
+    const { container } = render(<Blog blog={blog} />)
+    expect(container).toHaveTextContent('Title')
+    expect(container).not.toHaveTextContent('Url')
+    expect(container).not.toHaveTextContent('Likes')
+  })
+
+  it('should show the Url and number of likes after clicking in the view button', () => {
+    const { container } = render(<Blog blog={blog} />)
+    const viewButton = container.querySelector('.visible-btn')
+    fireEvent.click(viewButton)
+    expect(container).toHaveTextContent('Likes: 5')
+    expect(container).toHaveTextContent('Url')
   })
 })

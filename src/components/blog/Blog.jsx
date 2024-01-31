@@ -45,12 +45,16 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
   return (
     <div style={blogStyle}>
       {blog.title}
-      <Button text={visible ? 'Hide' : 'View'} handle={handleVisible} />
+      <Button
+        text={visible ? 'Hide' : 'View'}
+        handle={handleVisible}
+        className="visible-btn"
+      />
       {visible && (
         <div>
           <p>{blog.url}</p>
           Likes: {blog.likes}
-          <Button text="Like" handle={updateBlogSubmit} />
+          <Button text="Like" handle={updateBlogSubmit} className="like-btn" />
           <p>{blog.author}</p>
           {showRemove && <Button text="Remove" handle={deleteBlogSubmit} />}
         </div>
