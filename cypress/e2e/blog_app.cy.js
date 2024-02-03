@@ -6,6 +6,11 @@ describe('Blog app', () => {
       name: 'Emiliano',
       password: 'Password1'
     })
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, {
+      username: 'Lenny2',
+      name: 'Emiliano',
+      password: 'Password1'
+    })
     cy.visit('')
   })
   it('Login form is shown', () => {
@@ -48,6 +53,23 @@ describe('Blog app', () => {
   describe.only('When logged in', () => {
     beforeEach(() => {
       cy.login({ username: 'Lenny', password: 'Password1' })
+      cy.createBlog({
+        title: 'First blog',
+        author: 'beforeEach',
+        url: 'This is an url'
+      })
+      cy.createBlog({
+        title: 'The title with the most likes',
+        author: 'beforeEach',
+        url: 'This is an url',
+        likes: 100
+      })
+      cy.createBlog({
+        title: 'The title with the second most likes',
+        author: 'beforeEach',
+        url: 'This is an url',
+        likes: 50
+      })
     })
 
     it('A blog can be created', () => {
@@ -57,6 +79,19 @@ describe('Blog app', () => {
       cy.get('#url').type('This is an url')
       cy.contains('Create Blog').click()
       cy.contains('Blog from cypress')
+    })
+
+    it('A user can like a blog', () => {
+      cy.contains('First blog').within(() => {
+        cy.contains('View').click()
+        cy.get('.like-btn').click()
+        cy.contains('Likes: 1')
+      })
+    })
+
+    it.only('A user cannot delete an external note', () => {
+      cy.login({ username: 'Lenny2', password: 'Password1' })
+      cy.contains('First blog').should('not.contain', 'Remove')
     })
   })
 })

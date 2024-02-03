@@ -23,7 +23,7 @@ const AllBlogs = ({ blogs, setBlogs, user }) => {
     }
   }
   return (
-    <div>
+    <div className="blog-list">
       <h2>blogs</h2>
       {blogs.length
         ? blogs
