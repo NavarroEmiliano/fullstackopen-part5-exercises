@@ -43,7 +43,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
   }, [])
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       {blog.title}
       <Button
         text={visible ? 'Hide' : 'View'}

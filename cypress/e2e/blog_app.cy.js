@@ -50,7 +50,7 @@ describe('Blog app', () => {
     })
   })
 
-  describe.only('When logged in', () => {
+  describe('When logged in', () => {
     beforeEach(() => {
       cy.login({ username: 'Lenny', password: 'Password1' })
       cy.createBlog({
@@ -97,6 +97,15 @@ describe('Blog app', () => {
     it('A user cannot delete an external note', () => {
       cy.login({ username: 'Lenny2', password: 'Password1' })
       cy.contains('First blog').should('not.contain', 'Remove')
+    })
+
+    it('Blogs should be ordered from largest to smallest with respect to the number of likes', () => {
+      cy.get('.blog-list').within(() => {
+        cy.get('.blog').eq(0).should('contain', 'The title with the most likes')
+        cy.get('.blog')
+          .eq(1)
+          .should('contain', 'The title with the second most likes')
+      })
     })
   })
 })
