@@ -35,12 +35,14 @@ const Login = ({ setNotification, setUser }) => {
           type="text"
           value={username}
           setValue={setUsername}
+          id="username"
         />
         <InputLabel
           textLabel="Password"
           type="password"
           value={password}
           setValue={setPassword}
+          id="password"
         />
         <Button type="submit " text="Login" />
       </form>
