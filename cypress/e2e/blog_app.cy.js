@@ -89,7 +89,12 @@ describe('Blog app', () => {
       })
     })
 
-    it.only('A user cannot delete an external note', () => {
+    it('A user cannot delete an external note', () => {
+      cy.contains('First blog').contains('View').click()
+      cy.contains('Remove')
+    })
+
+    it('A user cannot delete an external note', () => {
       cy.login({ username: 'Lenny2', password: 'Password1' })
       cy.contains('First blog').should('not.contain', 'Remove')
     })
