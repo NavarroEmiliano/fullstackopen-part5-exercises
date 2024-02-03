@@ -19,7 +19,7 @@ const Login = ({ setNotification, setUser }) => {
       setPassword('')
       setUser(user)
     } catch (error) {
-      setNotification(error.response.data.error)
+      setNotification({ message: error.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)

@@ -5,8 +5,11 @@ const Notification = ({ notification }) => {
     return null
   }
   return (
-    <div className="error" style={{ color: 'red' }}>
-      {notification}
+    <div
+      className="error"
+      style={{ color: notification.type === 'success' ? 'green' : 'red' }}
+    >
+      {notification.message}
     </div>
   )
 }

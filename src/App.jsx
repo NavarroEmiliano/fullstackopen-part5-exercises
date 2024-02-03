@@ -19,15 +19,16 @@ const App = () => {
       const response = await blogService.createBlog(newBlog)
       const allBlogs = await blogService.getAll()
       setBlogs(allBlogs)
-      setNotification(
-        `A new blog ${response.title} by ${response.author} added`
-      )
+      setNotification({
+        message: `A new blog ${response.title} by ${response.author} added`,
+        type: 'success'
+      })
       setTimeout(() => {
         setNotification(null)
       }, 5000)
       blogFormRef.current.toggleVisibility()
     } catch (error) {
-      setNotification(error.response.data.error)
+      setNotification({ message: error.response.data.error, type: 'error' })
       setTimeout(() => {
         setNotification(null)
       }, 5000)

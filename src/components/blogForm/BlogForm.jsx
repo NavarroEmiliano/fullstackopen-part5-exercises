@@ -24,16 +24,22 @@ const BlogForm = ({ createBlog }) => {
           type="text"
           value={title}
           setValue={setTitle}
-          id="Title"
+          id="title"
         />
         <InputLabel
           textLabel="Author"
           type="text"
           value={author}
           setValue={setAuthor}
-          id="Author"
+          id="author"
         />
-        <InputLabel textLabel="Url" type="text" value={url} setValue={setUrl} />
+        <InputLabel
+          textLabel="Url"
+          type="text"
+          value={url}
+          setValue={setUrl}
+          id="url"
+        />
         <button type="submit">Create Blog</button>
       </form>
     </div>

@@ -44,4 +44,19 @@ describe('Blog app', () => {
       )
     })
   })
+
+  describe.only('When logged in', () => {
+    beforeEach(() => {
+      cy.login({ username: 'Lenny', password: 'Password1' })
+    })
+
+    it('A blog can be created', () => {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('Blog from cypress')
+      cy.get('#author').type('Cypress')
+      cy.get('#url').type('This is an url')
+      cy.contains('Create Blog').click()
+      cy.contains('Blog from cypress')
+    })
+  })
 })
