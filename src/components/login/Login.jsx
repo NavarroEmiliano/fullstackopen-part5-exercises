@@ -29,7 +29,7 @@ const Login = ({ setNotification, setUser }) => {
   return (
     <div>
       <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="login-form">
         <InputLabel
           textLabel="Username"
           type="text"
