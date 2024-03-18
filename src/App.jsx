@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import Login from './components/login/Login'
 import AllBlogs from './components/allBlogs/AllBlogs'
@@ -8,32 +8,17 @@ import Notification from './components/notificacion/Notification'
 import Togglable from './components/togglable/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser, setUser } from './features/user/userSlice'
+import { setNotification } from './features/notification/notificationSlice'
 
 const App = () => {
-  const [notification, setNotification] = useState(null)
   const user = useSelector(state => state.user)
+  const notification = useSelector(state => state.notification)
 
   const dispatch = useDispatch()
-
   const blogFormRef = useRef()
 
-  const createBlog = async newBlog => {
-    try {
-      dispatch(createBlog(newBlog))
-      setNotification({
-        message: `A new blog ${newBlog.title} by ${newBlog.author} added`,
-        type: 'success'
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
-      blogFormRef.current.toggleVisibility()
-    } catch (error) {
-      setNotification({ message: error.response.data.error, type: 'error' })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
-    }
+  const createBlog = () => {
+    blogFormRef.current.toggleVisibility()
   }
 
   useEffect(() => {
@@ -43,12 +28,7 @@ const App = () => {
       dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-
-    if (user) {
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-    }
-  }, [])
+  }, [dispatch])
 
   const handleLogout = () => {
     dispatch(logoutUser())

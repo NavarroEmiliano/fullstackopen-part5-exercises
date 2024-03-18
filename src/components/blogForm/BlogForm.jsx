@@ -3,6 +3,7 @@ import InputLabel from '../inputLabel/InputLabel'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { createBlogAction } from '../../features/blogs/blogsSlice'
+import { setNotificationAction } from '../../features/notification/notificationSlice'
 
 const BlogForm = () => {
   const [title, setTitle] = useState('')
@@ -14,6 +15,14 @@ const BlogForm = () => {
   const createBlogHandle = event => {
     event.preventDefault()
     dispatch(createBlogAction({ title, author, url }))
+
+    dispatch(
+      setNotificationAction({
+        message: `A new blog ${title} by ${author} added`,
+        type: 'success'
+      })
+    )
+
     setTitle('')
     setAuthor('')
     setUrl('')

@@ -73,8 +73,6 @@ const Blog = ({ blog, userId }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object,
-  updateBlog: PropTypes.func,
-  deleteBlog: PropTypes.func,
   userId: PropTypes.string
 }
 

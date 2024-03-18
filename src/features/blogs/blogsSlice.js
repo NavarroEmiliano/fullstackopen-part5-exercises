@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogServices from '../../services/blogs'
+import { setNotificationAction } from '../notification/notificationSlice'
 
 const initialState = []
 
@@ -27,8 +28,17 @@ export const initializeBlogs = () => async dispatch => {
 }
 
 export const createBlogAction = newBlog => async dispatch => {
-  const blog = await blogServices.createBlog(newBlog)
-  dispatch(addBlog(blog))
+  try {
+    const blog = await blogServices.createBlog(newBlog)
+    dispatch(addBlog(blog))
+  } catch (error) {
+    dispatch(
+      setNotificationAction({
+        message: error.response.data.error,
+        type: 'error'
+      })
+    )
+  }
 }
 
 export const updateBlogAction = (blog, blogId) => async dispatch => {
