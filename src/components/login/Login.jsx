@@ -1,23 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../button/Button'
 import InputLabel from '../inputLabel/InputLabel'
-import loginService from '../../services/login'
 import blogService from '../../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUserAction } from '../../features/user/userSlice'
 
-const Login = ({ setNotification, setUser }) => {
+const Login = ({ setNotification }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const dispatch = useDispatch()
 
   const handleLogin = async event => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      blogService.setToken(user.token)
+      dispatch(loginUserAction({ username, password }))
       setUsername('')
       setPassword('')
-      setUser(user)
     } catch (error) {
       setNotification({ message: error.response.data.error, type: 'error' })
       setTimeout(() => {

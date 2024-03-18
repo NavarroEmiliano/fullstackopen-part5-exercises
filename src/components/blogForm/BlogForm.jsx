@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import InputLabel from '../inputLabel/InputLabel'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { createBlogAction } from '../../features/blogs/blogsSlice'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+  const dispatch = useDispatch()
+
   const createBlogHandle = event => {
     event.preventDefault()
-    createBlog({ title, author, url })
+    dispatch(createBlogAction({ title, author, url }))
     setTitle('')
     setAuthor('')
     setUrl('')

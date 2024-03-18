@@ -6,21 +6,22 @@ import Button from './components/button/Button'
 import BlogForm from './components/blogForm/BlogForm'
 import Notification from './components/notificacion/Notification'
 import Togglable from './components/togglable/Togglable'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUser, setUser } from './features/user/userSlice'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
+  const user = useSelector(state => state.user)
+
+  const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
   const createBlog = async newBlog => {
     try {
-      const response = await blogService.createBlog(newBlog)
-      const allBlogs = await blogService.getAll()
-      setBlogs(allBlogs)
+      dispatch(createBlog(newBlog))
       setNotification({
-        message: `A new blog ${response.title} by ${response.author} added`,
+        message: `A new blog ${newBlog.title} by ${newBlog.author} added`,
         type: 'success'
       })
       setTimeout(() => {
@@ -36,28 +37,24 @@ const App = () => {
   }
 
   useEffect(() => {
-    const getAllBlogs = async () => {
-      const allBlogs = await blogService.getAll()
-      setBlogs(allBlogs)
-    }
-    getAllBlogs()
-  }, [])
-
-  useEffect(() => {
     const userLogged = window.localStorage.getItem('loggedBlogappUser')
     if (userLogged) {
       const user = JSON.parse(userLogged)
-      setUser(user)
+      dispatch(setUser(user))
+      blogService.setToken(user.token)
+    }
+
+    if (user) {
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
     }
   }, [])
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(logoutUser())
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogappUser')
   }
-
   return (
     <div>
       <div>
@@ -72,7 +69,7 @@ const App = () => {
           <Togglable buttonLabel="New Blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
-          <AllBlogs blogs={blogs} setBlogs={setBlogs} user={user} />
+          <AllBlogs user={user} />
         </div>
       )}
     </div>

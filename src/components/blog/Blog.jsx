@@ -2,10 +2,17 @@
 import { useEffect, useState } from 'react'
 import Button from '../button/Button'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import {
+  deleteBlogAction,
+  updateBlogAction
+} from '../../features/blogs/blogsSlice'
 
-const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
+const Blog = ({ blog, userId }) => {
   const [visible, setVisible] = useState(false)
   const [showRemove, setShowRemove] = useState(false)
+
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 5,
@@ -28,17 +35,18 @@ const Blog = ({ blog, updateBlog, deleteBlog, userId }) => {
       title: blog.title,
       url: blog.url
     }
-    updateBlog(updatedBlog, blogId)
+
+    dispatch(updateBlogAction(updatedBlog, blogId))
   }
 
   const deleteBlogSubmit = () => {
     if (window.confirm(`Remove blog ${blog.title}`)) {
-      deleteBlog(blog.id)
+      dispatch(deleteBlogAction(blog.id))
     }
   }
 
   useEffect(() => {
-    const belongsToUser = userId === blog.user.id
+    const belongsToUser = userId === blog.user.id || userId === blog.user
     setShowRemove(belongsToUser)
   }, [])
 
