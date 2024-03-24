@@ -9,8 +9,9 @@ import Togglable from './components/togglable/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser, setUser } from './features/user/userSlice'
 import { setNotification } from './features/notification/notificationSlice'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import AllUsers from './components/allUsers/AllUsers'
+import User from './components/user/User'
 
 const App = () => {
   const user = useSelector(state => state.user)
@@ -39,11 +40,13 @@ const App = () => {
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogappUser')
   }
+
   return (
     <div>
-      <Navigate>
-        
-      </Navigate>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/users">Users</Link>
+      </nav>
       <div>
         <Notification notification={notification} />
       </div>
@@ -62,6 +65,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<AllBlogs user={user} />} />
             <Route path="/users" element={<AllUsers />} />
+            <Route path="/users/:id" element={<User />} />
           </Routes>
         </div>
       )}
