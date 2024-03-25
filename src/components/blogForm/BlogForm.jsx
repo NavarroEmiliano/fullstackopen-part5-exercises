@@ -29,9 +29,12 @@ const BlogForm = () => {
   }
 
   return (
-    <div>
-      <h2>Create New</h2>
-      <form onSubmit={createBlogHandle} className="blog-form">
+    <div className="w-72">
+      <h2 className="text-center text-lg">Create New</h2>
+      <form
+        onSubmit={createBlogHandle}
+        className="flex flex-col p-4 blog-form "
+      >
         <InputLabel
           textLabel="Title"
           type="text"
@@ -53,7 +56,12 @@ const BlogForm = () => {
           setValue={setUrl}
           id="url"
         />
-        <button type="submit">Create Blog</button>
+        <button
+          className=" mx-auto m-2 p-2 bg-sky-800 rounded-lg"
+          type="submit"
+        >
+          Create Blog
+        </button>
       </form>
     </div>
   )

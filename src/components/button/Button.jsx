@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 const Button = props => {
   const { type, text, handle } = props
   return (
-    <button type={type} onClick={handle} className={props.className}>
+    <button
+      type={type}
+      onClick={handle}
+      className="bg-secondary  mx-auto  p-2 font-bold rounded-lg"
+    >
       {text}
     </button>
   )

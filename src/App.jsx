@@ -12,6 +12,9 @@ import { setNotification } from './features/notification/notificationSlice'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import AllUsers from './components/allUsers/AllUsers'
 import User from './components/user/User'
+import Blog from './components/blog/Blog'
+import { setUsersAction } from './features/users/usersSlice'
+import { initializeBlogs } from './features/blogs/blogsSlice'
 
 const App = () => {
   const user = useSelector(state => state.user)
@@ -35,6 +38,11 @@ const App = () => {
     }
   }, [dispatch])
 
+  useEffect(() => {
+    dispatch(setUsersAction())
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
   const handleLogout = () => {
     dispatch(logoutUser())
     blogService.setToken(null)
@@ -42,20 +50,27 @@ const App = () => {
   }
 
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/users">Users</Link>
-      </nav>
-      <div>
-        <Notification notification={notification} />
-      </div>
+    <div className=" flex justify-center items-center h-screen bg-background text-white">
       {user === null ? (
         <Login setNotification={setNotification} setUser={setUser} />
       ) : (
-        <div>
-          <p>{`${user.name} logged in`}</p>
-          <Button type="button" text="Logout" handle={handleLogout} />
+        <div className="h-screen">
+          <nav className="flex p-2 items-center w-screen border-b-2 mb-2 text-base">
+            <Link className=" m-2 p-2 bg-sky-800 rounded-lg" to="/">
+              Blogs
+            </Link>
+            <Link className="m-2 p-2 bg-sky-800 rounded-lg" to="/users">
+              Users
+            </Link>
+            <div>{`${user.name} logged in`}</div>
+            <div className="text-right w-full">
+              <Button type="button" text="Logout" handle={handleLogout} />
+            </div>
+          </nav>
+          <div>
+            <Notification notification={notification} />
+          </div>
+
           {pathname === '/' && (
             <Togglable buttonLabel="New Blog" ref={blogFormRef}>
               <BlogForm createBlog={createBlog} />
@@ -63,9 +78,10 @@ const App = () => {
           )}
 
           <Routes>
-            <Route path="/" element={<AllBlogs user={user} />} />
+            <Route path="/" element={<AllBlogs />} />
             <Route path="/users" element={<AllUsers />} />
             <Route path="/users/:id" element={<User />} />
+            <Route path="/blogs/:id" element={<Blog userId={user.id} />} />
           </Routes>
         </div>
       )}

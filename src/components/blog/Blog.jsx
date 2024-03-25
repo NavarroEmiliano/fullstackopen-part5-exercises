@@ -2,28 +2,38 @@
 import { useEffect, useState } from 'react'
 import Button from '../button/Button'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteBlogAction,
   updateBlogAction
 } from '../../features/blogs/blogsSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import CommentForm from '../commentForm/CommentForm'
 
-const Blog = ({ blog, userId }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ userId }) => {
   const [showRemove, setShowRemove] = useState(false)
-
   const dispatch = useDispatch()
+
+  const { id } = useParams()
+
+  const navigate = useNavigate()
+
+  const blogs = useSelector(state => state.blogs)
+
+  const blog = blogs.length ? blogs.find(blog => blog.id === id) : null
+
+  const users = useSelector(state => state.users)
+
+  const user =
+    users.length && blog
+      ? users.find(user => user.id === blog.user.id || user.id === blog.user)
+      : null
 
   const blogStyle = {
     paddingTop: 5,
     paddingLeft: 5,
-    border: 'solid',
     borderWidth: 1,
     marginBotton: 5
-  }
-
-  const handleVisible = () => {
-    setVisible(!visible)
   }
 
   const updateBlogSubmit = async () => {
@@ -42,37 +52,41 @@ const Blog = ({ blog, userId }) => {
   const deleteBlogSubmit = () => {
     if (window.confirm(`Remove blog ${blog.title}`)) {
       dispatch(deleteBlogAction(blog.id))
+      navigate('/')
     }
   }
 
   useEffect(() => {
-    const belongsToUser = userId === blog.user.id || userId === blog.user
-    setShowRemove(belongsToUser)
+    if (user && blog) {
+      const belongsToUser = userId === blog.user.id || userId === blog.user
+      setShowRemove(belongsToUser)
+    }
   }, [])
 
   return (
     <div style={blogStyle} className="blog">
-      {blog.title}
-      <Button
-        text={visible ? 'Hide' : 'View'}
-        handle={handleVisible}
-        className="visible-btn"
-      />
-      {visible && (
-        <div>
-          <p>{blog.url}</p>
-          Likes: {blog.likes}
-          <Button text="Like" handle={updateBlogSubmit} className="like-btn" />
-          <p>{blog.author}</p>
-          {showRemove && <Button text="Remove" handle={deleteBlogSubmit} />}
-        </div>
-      )}
+      <h1>{blog?.title}</h1>
+      <div>
+        <p>Url: {blog?.url}</p>
+        Likes: {blog?.likes}
+        <Button text="Like" handle={updateBlogSubmit} className="like-btn" />
+        <p>Author: {blog?.author}</p>
+        <p>Added by {user?.name}</p>
+        {showRemove && <Button text="Remove" handle={deleteBlogSubmit} />}
+      </div>
+
+      <h3>Comments</h3>
+      <CommentForm blogId={id} />
+      <ul>
+        {blog?.comments?.map(comment => (
+          <li key={crypto.randomUUID()}>{comment}</li>
+        ))}
+      </ul>
     </div>
   )
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object,
   userId: PropTypes.string
 }
 

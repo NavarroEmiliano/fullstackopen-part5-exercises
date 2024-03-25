@@ -1,10 +1,9 @@
-import Blog from '../blog/Blog'
-import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { initializeBlogs } from '../../features/blogs/blogsSlice'
+import { Link } from 'react-router-dom'
 
-const AllBlogs = ({ user }) => {
+const AllBlogs = () => {
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
 
@@ -18,18 +17,18 @@ const AllBlogs = ({ user }) => {
 
   return (
     <div className="blog-list">
-      <h2>blogs</h2>
-      {sortedBlogs
-        ? sortedBlogs.map(blog => (
-            <Blog key={blog.id} blog={blog} userId={user.id} />
-          ))
-        : ''}
+      <h2 className="text-2xl font-bold">Blogs</h2>
+      <ul style={{ padding: 0 }}>
+        {sortedBlogs
+          ? sortedBlogs.map(blog => (
+              <li key={blog.id}>
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </li>
+            ))
+          : ''}
+      </ul>
     </div>
   )
-}
-
-AllBlogs.propTypes = {
-  user: PropTypes.object.isRequired
 }
 
 export default AllBlogs

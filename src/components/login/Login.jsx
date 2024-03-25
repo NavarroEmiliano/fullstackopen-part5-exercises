@@ -3,10 +3,13 @@ import Button from '../button/Button'
 import InputLabel from '../inputLabel/InputLabel'
 import { useDispatch } from 'react-redux'
 import { loginUserAction } from '../../features/user/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -15,12 +18,16 @@ const Login = () => {
     dispatch(loginUserAction({ username, password }))
     setUsername('')
     setPassword('')
+    navigate('/')
   }
 
   return (
-    <div>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin} className="login-form">
+    <div className="flex flex-col items-center w-80 h-72 mx-auto bg-slate-900 rounded-xl p-4  ">
+      <h2 className="text-2xl pb-4">Log in to application</h2>
+      <form
+        onSubmit={handleLogin}
+        className="flex flex-col justify-center h-full login-form"
+      >
         <InputLabel
           textLabel="Username"
           type="text"

@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 const InputLabel = props => {
   const { textLabel, type, value, setValue, id } = props
   return (
-    <div>
-      <label htmlFor={textLabel}>{`${textLabel}: `}</label>
+    <div className="flex justify-between items-center my-4">
+      <label
+        className="text-lg pr-2"
+        htmlFor={textLabel}
+      >{`${textLabel} `}</label>
       <input
+        className="rounded-md h-8 bg-slate-700 p-1"
         type={type}
         name={textLabel.toLowerCase()}
         value={value}
